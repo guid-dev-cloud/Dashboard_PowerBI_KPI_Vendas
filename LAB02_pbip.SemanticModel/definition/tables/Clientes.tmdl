@@ -1,0 +1,81 @@
+table Clientes
+	lineageTag: b89bb7ea-c9e7-479b-a1ce-33dc9c9d8780
+
+	column 'ID Cliente'
+		dataType: string
+		lineageTag: 8b25e3c4-b5f6-4a6d-838e-28b10f554ed3
+		summarizeBy: none
+		sourceColumn: ID Cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome Cliente'
+		dataType: string
+		lineageTag: 9adcaccf-f6e1-4544-a2da-14e738457300
+		summarizeBy: none
+		sourceColumn: Nome Cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segmento
+		dataType: string
+		lineageTag: e82cc02a-89c3-4480-b3ab-34d98b36aaa3
+		summarizeBy: none
+		sourceColumn: Segmento
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cidade
+		dataType: string
+		lineageTag: 54cea2b9-4278-48ab-b9a1-d5ad84011352
+		summarizeBy: none
+		sourceColumn: Cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column Estado
+		dataType: string
+		lineageTag: 9c98be20-e2d8-41a0-ae2c-f6d7c26e92f2
+		summarizeBy: none
+		sourceColumn: Estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column Pais
+		dataType: string
+		lineageTag: 27502388-aadf-4c4d-b032-faf629214e19
+		summarizeBy: none
+		sourceColumn: Pais
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mercado
+		dataType: string
+		lineageTag: a6bfcf59-9972-4b74-bb70-38a0a85f679a
+		summarizeBy: none
+		sourceColumn: Mercado
+
+		annotation SummarizationSetBy = Automatic
+
+	column Regiao
+		dataType: string
+		lineageTag: c70f85ac-11f1-4085-ad87-8d6a0906ccfa
+		summarizeBy: none
+		sourceColumn: Regiao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Clientes = m
+		mode: import
+		source =
+				let
+				  Origem = Csv.Document(File.Contents("C:\Users\intrigx\OneDrive\Documentos\CURSOS\POWER BI\ATIVIDADES\CAP03\Arquivos\Clientes.csv"), [Delimiter = ";", Columns = 8, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Origem, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"ID Cliente", type text}, {"Nome Cliente", type text}, {"Segmento", type text}, {"Cidade", type text}, {"Estado", type text}, {"Pais", type text}, {"Mercado", type text}, {"Regiao", type text}})
+				in
+				  #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
